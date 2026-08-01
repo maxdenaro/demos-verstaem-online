@@ -1,0 +1,73 @@
+---
+import Layout from "@/layouts/BaseLayout.astro";
+import { demos } from "@/data/demos.js";
+---
+
+<Layout title="Интерактивные демо по вёрстке" description="Интерактивные демо по CSS и вёрстке">
+  <main class="page">
+    <h1>Интерактивные демо по вёрстке</h1>
+
+    {demos.map((group) => (
+      <section class="group">
+        <h2>{group.title}</h2>
+
+        <ul>
+          {group.items.map((item) => (
+            <li>
+              <a href={`/${group.category}/${item.slug}/`}>{item.title}</a>
+              {item.description && <p>{item.description}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </main>
+</Layout>
+
+<style is:global>
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 24px 64px;
+  }
+
+  h1 {
+    margin: 0 0 40px;
+    font-size: 32px;
+  }
+
+  .group h2 {
+    margin: 0 0 12px;
+    font-size: 20px;
+  }
+
+  .group + .group {
+    margin-top: 40px;
+  }
+
+  .group ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .group li {
+    padding: 16px 0;
+    border-top: 1px solid #eee;
+  }
+
+  .group li a {
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .group li a:hover {
+    text-decoration: underline;
+  }
+
+  .group li p {
+    margin: 6px 0 0;
+    color: #666;
+  }
+</style>

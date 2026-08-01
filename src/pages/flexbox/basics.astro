@@ -1,0 +1,147 @@
+---
+import DemoLayout from "@/layouts/DemoLayout.astro";
+
+const title = "Flexbox: основы";
+const description =
+  "Как меняется расположение элементов, когда контейнер становится flex-контейнером.";
+---
+
+<DemoLayout title={title} description={description}>
+  <div class="demo">
+    <div class="preview">
+      <h2>Результат</h2>
+
+      <div class="container" id="container">
+        <div class="item">Блок 1</div>
+        <div class="item">Блок 2</div>
+        <div class="item">Блок 3</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>CSS</h2>
+
+      <pre><code id="code"></code></pre>
+
+      <div class="controls">
+        <label>
+          <input type="checkbox" id="toggle" />
+          Включить Flexbox
+        </label>
+      </div>
+
+      <div class="description" id="description">
+        Сейчас элементы являются обычными блочными и располагаются друг под
+        другом.
+      </div>
+    </div>
+  </div>
+</DemoLayout>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 40px;
+    font: 16px/1.5 sans-serif;
+    background: #f5f5f5;
+  }
+
+  .demo {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+  }
+
+  .preview,
+  .panel {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .preview h2,
+  .panel h2 {
+    margin: 0 0 20px;
+    font-size: 18px;
+  }
+
+  .container {
+    transition: 0.3s;
+  }
+
+  .container.flex {
+    display: flex;
+    gap: 12px;
+  }
+
+  .item {
+    background: #5b5ce2;
+    color: white;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    text-align: center;
+    transition: 0.3s;
+  }
+
+  .container.flex .item {
+    margin-bottom: 0;
+  }
+
+  pre {
+    margin: 0;
+    padding: 18px;
+    border-radius: 10px;
+    background: #222;
+    color: #7cff7c;
+    overflow: auto;
+  }
+
+  .controls {
+    margin-top: 20px;
+  }
+
+  .description {
+    margin-top: 20px;
+    color: #666;
+  }
+
+  label {
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("toggle");
+  const container = document.getElementById("container");
+  const code = document.getElementById("code");
+  const description = document.getElementById("description");
+
+  const codeBlock = `.container {
+    display: block;
+}`;
+
+  const codeFlex = `.container {
+    display: flex;
+}`;
+
+  code.textContent = codeBlock;
+
+  toggle.addEventListener("change", () => {
+    if (toggle.checked) {
+      container.classList.add("flex");
+      code.textContent = codeFlex;
+      description.textContent =
+        "Контейнер стал flex-контейнером. Его дочерние элементы теперь располагаются вдоль главной оси (по умолчанию — слева направо).";
+    } else {
+      container.classList.remove("flex");
+      code.textContent = codeBlock;
+      description.textContent =
+        "Сейчас элементы являются обычными блочными и располагаются друг под другом.";
+    }
+  });
+</script>

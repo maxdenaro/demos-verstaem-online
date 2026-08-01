@@ -8,28 +8,6 @@ const { title = "Демо", description = "" } = Astro.props;
   <Head title={title} description={description} />
 
   <body>
-    <nav class="demo-nav">
-      <a href="/">← Все демо</a>
-    </nav>
     <slot />
   </body>
 </html>
-
-<style is:global>
-  .demo-nav {
-    position: absolute;
-    top: 12px;
-    left: 16px;
-    z-index: 10;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  }
-
-  .demo-nav a {
-    color: #5b5ce2;
-    text-decoration: none;
-  }
-
-  .demo-nav a:hover {
-    text-decoration: underline;
-  }
-</style>

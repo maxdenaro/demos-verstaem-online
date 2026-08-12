@@ -1,0 +1,66 @@
+@use "checkbox";
+
+.interactive {
+  &__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 40px var(--container-offset);
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    font-family: var(--title-font-family);
+    font-size: 28px;
+  }
+
+  &__description {
+    margin: 0 0 24px;
+    font-size: 16px;
+    color: var(--text-tretiary);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+    align-items: start;
+  }
+
+  &__preview,
+  &__panel {
+    padding: 24px;
+    background: var(--bg-primary);
+    border-radius: var(--border-radius);
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__code {
+    margin: 0;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    color: var(--text-tretiary);
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  @media (max-width: 900px) {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

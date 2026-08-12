@@ -1,0 +1,45 @@
+---
+import Head from "@/components/base/Head.astro";
+import "@/assets/scss/main.scss";
+
+const { title = "Интерактивное демо", description = "" } = Astro.props;
+---
+
+<html lang="ru" class="page">
+  <Head title={title} description={description} />
+
+  <body class="page__body">
+    <section class="interactive">
+      <div class="interactive__container">
+        <h1 class="interactive__title">{title}</h1>
+
+        {description && <p class="interactive__description">{description}</p>}
+
+        <div class="interactive__grid">
+          <div class="interactive__preview">
+            <slot name="preview" />
+          </div>
+
+          <div class="interactive__panel">
+            <pre class="interactive__code" id="interactive--code"></pre>
+
+            <div class="interactive__controls">
+              <slot name="controls" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script is:inline>
+      (function () {
+        const codeEl = document.getElementById("interactive--code");
+        if (!codeEl) return;
+
+        window.renderInteractiveCode = function (lines) {
+          codeEl.textContent = lines.join("\n");
+        };
+      })();
+    </script>
+  </body>
+</html>

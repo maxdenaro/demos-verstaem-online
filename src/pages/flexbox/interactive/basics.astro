@@ -1,68 +1,52 @@
 ---
-import DemoLayout from "@/layouts/DemoLayout.astro";
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
 
 const title = "Flexbox: основы";
 const description =
   "Как меняется расположение элементов, когда контейнер становится flex-контейнером.";
 ---
 
-<DemoLayout title={title} description={description}>
-  <div class="demo">
-    <div class="preview">
-      <h2>Результат</h2>
-
-      <div class="container" id="container">
-        <div class="item">Блок 1</div>
-        <div class="item">Блок 2</div>
-        <div class="item">Блок 3</div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h2>CSS</h2>
-
-      <pre><code id="code"></code></pre>
-
-      <div class="controls">
-        <label>
-          <input type="checkbox" id="toggle" />
-          Включить Flexbox
-        </label>
-      </div>
-
-      <div class="description" id="description">
-        Сейчас элементы являются обычными блочными и располагаются друг под
-        другом.
-      </div>
-    </div>
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>Блок 1</Child>
+    <Child>Блок 2</Child>
+    <Child>Блок 3</Child>
   </div>
-</DemoLayout>
+
+  <div slot="controls">
+    <label class="checkbox">
+      <input class="checkbox__input" type="checkbox" id="toggle" />
+      <span class="checkbox__box"></span>
+      <span class="checkbox__label">Включить Flexbox</span>
+    </label>
+
+    <p class="interactive__description" id="description">
+      Сейчас элементы являются обычными блочными и располагаются друг под другом.
+    </p>
+  </div>
+</InteractiveLayout>
 
 <style is:global>
-  body {
-    margin: 40px;
-  }
-
-  .container {
+  .demo-interactive {
     transition: 0.3s;
   }
 
-  .container.flex {
+  .demo-interactive .child {
+    background: var(--bg-secondary);
+  }
+
+  .demo-interactive .child:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  .demo-interactive.flex {
     display: flex;
     gap: 12px;
   }
 
-  .item {
-    background: var(--color-accent);
-    color: white;
-    padding: 18px;
-    border-radius: var(--radius-sm);
-    margin-bottom: 12px;
-    text-align: center;
-    transition: 0.3s;
-  }
-
-  .container.flex .item {
+  .demo-interactive.flex .child {
+    flex: 1 1 0;
     margin-bottom: 0;
   }
 </style>
@@ -70,30 +54,22 @@ const description =
 <script is:inline>
   const toggle = document.getElementById("toggle");
   const container = document.getElementById("container");
-  const code = document.getElementById("code");
   const description = document.getElementById("description");
 
-  const codeBlock = `.container {
-    display: block;
-}`;
+  const render = () => {
+    container.classList.toggle("flex", toggle.checked);
 
-  const codeFlex = `.container {
-    display: flex;
-}`;
+    window.renderInteractiveCode(
+      toggle.checked
+        ? [".demo-interactive {", "  display: flex;", "  gap: 12px;", "}"]
+        : [".demo-interactive {", "  display: block;", "}"]
+    );
 
-  code.textContent = codeBlock;
+    description.textContent = toggle.checked
+      ? "Контейнер стал flex-контейнером. Его дочерние элементы теперь располагаются вдоль главной оси (по умолчанию — слева направо)."
+      : "Сейчас элементы являются обычными блочными и располагаются друг под другом.";
+  };
 
-  toggle.addEventListener("change", () => {
-    if (toggle.checked) {
-      container.classList.add("flex");
-      code.textContent = codeFlex;
-      description.textContent =
-        "Контейнер стал flex-контейнером. Его дочерние элементы теперь располагаются вдоль главной оси (по умолчанию — слева направо).";
-    } else {
-      container.classList.remove("flex");
-      code.textContent = codeBlock;
-      description.textContent =
-        "Сейчас элементы являются обычными блочными и располагаются друг под другом.";
-    }
-  });
+  render();
+  toggle.addEventListener("change", render);
 </script>

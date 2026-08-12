@@ -1,0 +1,85 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+
+const title = "Flexbox: inline-flex и flex";
+const description =
+  "Чем inline-flex отличается от flex: бейдж остаётся в строке с текстом (inline-flex) либо становится блочным и занимает всю ширину (flex).";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <p class="status">
+      Статус:
+      <span class="badge">Онлайн</span>
+    </p>
+  </div>
+
+  <div slot="controls">
+    <label class="checkbox">
+      <input class="checkbox__input" type="checkbox" id="toggle" />
+      <span class="checkbox__box"></span>
+      <span class="checkbox__label">Сделать бейдж блочным (flex)</span>
+    </label>
+
+    <p class="interactive__description" id="description">
+      Бейдж со свойством inline-flex: остаётся в строке с текстом и занимает ширину только своего контента.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .demo-interactive {
+    transition: 0.3s;
+  }
+
+  .status {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    padding: 4px 14px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--badge-success-text);
+    background: var(--badge-success-bg);
+    border: 1px solid var(--badge-success-border);
+    border-radius: 999px;
+    transition: 0.3s;
+  }
+
+  .badge.flex {
+    display: flex;
+    margin-left: 0;
+  }
+</style>
+
+<script is:inline>
+  const toggle = document.getElementById("toggle");
+  const badge = document.querySelector(".badge");
+  const description = document.getElementById("description");
+
+  const render = () => {
+    badge.classList.toggle("flex", toggle.checked);
+
+    window.renderInteractiveCode(
+      toggle.checked
+        ? [".badge {", "  display: flex;", "}"]
+        : [".badge {", "  display: inline-flex;", "}"]
+    );
+
+    description.textContent = toggle.checked
+      ? "Бейдж стал блочным (display: flex): перенёсся на новую строку и растянулся на всю ширину контейнера."
+      : "Бейдж со свойством inline-flex: остаётся в строке с текстом и занимает ширину только своего контента.";
+  };
+
+  render();
+  toggle.addEventListener("change", render);
+</script>

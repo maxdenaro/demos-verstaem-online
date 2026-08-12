@@ -1,0 +1,41 @@
+---
+import DemoLayout from "@/layouts/DemoLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Что такое флексбокс: отступ между элементами через gap";
+const description = "";
+---
+
+<DemoLayout title={title} description={description}>
+  <Child>1</Child>
+  <Child>2</Child>
+  <Child>3</Child>
+</DemoLayout>
+
+<style is:global>
+  .demo__inner {
+    display: flex;
+    gap: 16px;
+  }
+
+  .demo__inner .child {
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .demo__inner .child:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -16px;
+    width: 16px;
+    background: var(--accent-color);
+    opacity: 0.35;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
 import Child from "@/components/base/Child.astro";
+import Radio from "@/components/base/Radio.astro";
 
 const title = "Flexbox: flex-direction";
 const description =
@@ -16,29 +17,10 @@ const description =
 
   <div slot="controls">
     <div class="radio-group" role="radiogroup" aria-label="flex-direction">
-      <label class="radio">
-        <input class="radio__input" type="radio" name="direction" value="row" checked />
-        <span class="radio__box"></span>
-        <span class="radio__label">row</span>
-      </label>
-
-      <label class="radio">
-        <input class="radio__input" type="radio" name="direction" value="row-reverse" />
-        <span class="radio__box"></span>
-        <span class="radio__label">row-reverse</span>
-      </label>
-
-      <label class="radio">
-        <input class="radio__input" type="radio" name="direction" value="column" />
-        <span class="radio__box"></span>
-        <span class="radio__label">column</span>
-      </label>
-
-      <label class="radio">
-        <input class="radio__input" type="radio" name="direction" value="column-reverse" />
-        <span class="radio__box"></span>
-        <span class="radio__label">column-reverse</span>
-      </label>
+      <Radio name="direction" value="row" label="row" checked />
+      <Radio name="direction" value="row-reverse" label="row-reverse" />
+      <Radio name="direction" value="column" label="column" />
+      <Radio name="direction" value="column-reverse" label="column-reverse" />
     </div>
 
     <p class="interactive__description" id="description">
@@ -52,81 +34,6 @@ const description =
     display: flex;
     flex-wrap: wrap;
     gap: 12px 20px;
-  }
-
-  .radio {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .radio__input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  .radio__box {
-    position: relative;
-    flex: 0 0 auto;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--text-tretiary);
-    border-radius: 50%;
-    background: transparent;
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-
-  .radio__box::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--text-secondary);
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.2s ease;
-  }
-
-  .radio__label {
-    font-size: 14px;
-    color: var(--text-tretiary);
-    transition: color 0.2s ease;
-  }
-
-  .radio:hover {
-    .radio__box {
-      border-color: var(--accent-color);
-    }
-
-    .radio__label {
-      color: var(--text-primary);
-    }
-  }
-
-  .radio__input:checked + .radio__box {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-
-    &::after {
-      transform: translate(-50%, -50%) scale(1);
-    }
-  }
-
-  .radio__input:focus-visible + .radio__box {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px var(--focus-color);
   }
 
   .demo-interactive {

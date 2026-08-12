@@ -1,0 +1,257 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: justify-content и align-items";
+const description =
+  "justify-content выравнивает по главной оси, align-items — по поперечной. Вместе они ставят элементы куда угодно.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="positioning" id="positioning" slot="preview">
+    <div class="positioning__card">1</div>
+    <div class="positioning__card positioning__card--big">2</div>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-selector">
+      <p class="radio-selector__title">justify-content</p>
+      <div class="radio-group" role="radiogroup" aria-label="justify-content">
+        <Radio name="justify" value="flex-start" label="flex-start" checked />
+        <Radio name="justify" value="flex-end" label="flex-end" />
+        <Radio name="justify" value="center" label="center" />
+        <Radio name="justify" value="space-between" label="space-between" />
+        <Radio name="justify" value="space-around" label="space-around" />
+        <Radio name="justify" value="space-evenly" label="space-evenly" />
+      </div>
+    </div>
+
+    <div class="radio-selector">
+      <p class="radio-selector__title">align-items</p>
+      <div class="radio-group" role="radiogroup" aria-label="align-items">
+        <Radio name="align" value="stretch" label="stretch" checked />
+        <Radio name="align" value="flex-start" label="flex-start" />
+        <Radio name="align" value="flex-end" label="flex-end" />
+        <Radio name="align" value="center" label="center" />
+        <Radio name="align" value="baseline" label="baseline" />
+      </div>
+    </div>
+
+    <p class="interactive__description">
+      <span class="interactive__property">justify-content</span>
+      <span id="justify-description">Элементы прижаты к началу главной оси, слева.</span>
+    </p>
+
+    <p class="interactive__description">
+      <span class="interactive__property">align-items</span>
+      <span id="align-description">
+        Элементы растягиваются по поперечной оси, но фиксированная высота их сохраняет.
+      </span>
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .radio-selector__title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-fourthly);
+  }
+
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .interactive__property {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .positioning {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    height: 240px;
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    transition: 0.3s;
+  }
+
+  .positioning::before,
+  .positioning::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(208, 206, 206, 0.2) 0 4px,
+      transparent 4px 8px
+    );
+  }
+
+  .positioning::before {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+  }
+
+  .positioning::after {
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: repeating-linear-gradient(
+      to right,
+      rgba(208, 206, 206, 0.2) 0 4px,
+      transparent 4px 8px
+    );
+  }
+
+  .positioning__card {
+    flex: 0 0 auto;
+    padding: 16px 24px;
+    border-radius: 12px;
+    background: var(--accent-color);
+    color: var(--text-secondary);
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(249, 236, 14, 0.25);
+    transition: 0.3s;
+  }
+
+  .positioning__card--big {
+    padding: 28px 32px;
+    font-size: 28px;
+  }
+
+  .positioning.j-flex-start {
+    justify-content: flex-start;
+  }
+
+  .positioning.j-flex-end {
+    justify-content: flex-end;
+  }
+
+  .positioning.j-center {
+    justify-content: center;
+  }
+
+  .positioning.j-space-between {
+    justify-content: space-between;
+  }
+
+  .positioning.j-space-around {
+    justify-content: space-around;
+  }
+
+  .positioning.j-space-evenly {
+    justify-content: space-evenly;
+  }
+
+  .positioning.a-stretch {
+    align-items: stretch;
+  }
+
+  .positioning.a-flex-start {
+    align-items: flex-start;
+  }
+
+  .positioning.a-flex-end {
+    align-items: flex-end;
+  }
+
+  .positioning.a-center {
+    align-items: center;
+  }
+
+  .positioning.a-baseline {
+    align-items: baseline;
+  }
+</style>
+
+<script is:inline>
+  const justifyRadios = document.querySelectorAll('[name="justify"]');
+  const alignRadios = document.querySelectorAll('[name="align"]');
+  const positioning = document.getElementById("positioning");
+  const justifyDescription = document.getElementById("justify-description");
+  const alignDescription = document.getElementById("align-description");
+
+  const justifyClasses = [
+    "j-flex-start",
+    "j-flex-end",
+    "j-center",
+    "j-space-between",
+    "j-space-around",
+    "j-space-evenly",
+  ];
+
+  const alignClasses = [
+    "a-stretch",
+    "a-flex-start",
+    "a-flex-end",
+    "a-center",
+    "a-baseline",
+  ];
+
+  const justifyTexts = {
+    "flex-start": "Элементы прижаты к началу главной оси, слева.",
+    "flex-end": "Элементы прижаты к концу главной оси, справа.",
+    center: "Элементы отцентрированы группой по главной оси.",
+    "space-between":
+      "Первый элемент у начала оси, последний — у конца, остальное пространство распределяется между ними.",
+    "space-around":
+      "Вокруг каждого элемента одинаковые отступы по главной оси.",
+    "space-evenly":
+      "Пространство равномерно распределяется между элементами и по краям контейнера.",
+  };
+
+  const alignTexts = {
+    stretch:
+      "Элементы растягиваются по поперечной оси, но фиксированная высота их сохраняет.",
+    "flex-start": "Элементы выровнены по началу поперечной оси, сверху.",
+    "flex-end": "Элементы прижаты к концу поперечной оси, снизу — разница в высоте видна сверху.",
+    center: "Элементы выровнены по центру поперечной оси.",
+    baseline: "Элементы выровнены по базовой линии текста.",
+  };
+
+  const render = () => {
+    const j = document.querySelector('[name="justify"]:checked').value;
+    const a = document.querySelector('[name="align"]:checked').value;
+
+    positioning.classList.remove(...justifyClasses, ...alignClasses);
+    positioning.classList.add(`j-${j}`, `a-${a}`);
+
+    window.renderInteractiveCode([
+      ".positioning {",
+      "  display: flex;",
+      `  justify-content: ${j};`,
+      `  align-items: ${a};`,
+      "  gap: 12px;",
+      "}",
+    ]);
+
+    justifyDescription.textContent = justifyTexts[j];
+    alignDescription.textContent = alignTexts[a];
+  };
+
+  render();
+  justifyRadios.forEach((radio) => radio.addEventListener("change", render));
+  alignRadios.forEach((radio) => radio.addEventListener("change", render));
+</script>

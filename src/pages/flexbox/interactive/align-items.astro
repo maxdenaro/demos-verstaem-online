@@ -1,0 +1,215 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Flexbox: align-items";
+const description =
+  "align-items выравнивает элементы вдоль поперечной оси. Разница видна, когда элементы имеют разную высоту.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>Блок 1</Child>
+    <Child>Блок 2</Child>
+    <Child>Блок 3</Child>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="align-items">
+      <label class="radio">
+        <input class="radio__input" type="radio" name="align" value="stretch" checked />
+        <span class="radio__box"></span>
+        <span class="radio__label">stretch</span>
+      </label>
+
+      <label class="radio">
+        <input class="radio__input" type="radio" name="align" value="flex-start" />
+        <span class="radio__box"></span>
+        <span class="radio__label">flex-start</span>
+      </label>
+
+      <label class="radio">
+        <input class="radio__input" type="radio" name="align" value="flex-end" />
+        <span class="radio__box"></span>
+        <span class="radio__label">flex-end</span>
+      </label>
+
+      <label class="radio">
+        <input class="radio__input" type="radio" name="align" value="center" />
+        <span class="radio__box"></span>
+        <span class="radio__label">center</span>
+      </label>
+
+      <label class="radio">
+        <input class="radio__input" type="radio" name="align" value="baseline" />
+        <span class="radio__box"></span>
+        <span class="radio__label">baseline</span>
+      </label>
+    </div>
+
+    <p class="interactive__description" id="description">
+      Все элементы растягиваются на всю высоту контейнера по поперечной оси.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .radio {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .radio__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .radio__box {
+    position: relative;
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-tretiary);
+    border-radius: 50%;
+    background: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .radio__box::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s ease;
+  }
+
+  .radio__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+    transition: color 0.2s ease;
+  }
+
+  .radio:hover {
+    .radio__box {
+      border-color: var(--accent-color);
+    }
+
+    .radio__label {
+      color: var(--text-primary);
+    }
+  }
+
+  .radio__input:checked + .radio__box {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+
+    &::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  .radio__input:focus-visible + .radio__box {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--focus-color);
+  }
+
+  .demo-interactive {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    min-height: 240px;
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    padding: 40px 16px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    padding: 72px 16px;
+  }
+
+  .demo-interactive.flex-start {
+    align-items: flex-start;
+  }
+
+  .demo-interactive.flex-end {
+    align-items: flex-end;
+  }
+
+  .demo-interactive.center {
+    align-items: center;
+  }
+
+  .demo-interactive.baseline {
+    align-items: baseline;
+  }
+</style>
+
+<script is:inline>
+  const radios = document.querySelectorAll('[name="align"]');
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+
+  const texts = {
+    stretch:
+      "Все элементы растягиваются на всю высоту контейнера по поперечной оси.",
+    "flex-start":
+      "Элементы выравниваются по верхнему краю поперечной оси и сохраняют свою высоту.",
+    "flex-end":
+      "Элементы прижимаются к нижнему краю поперечной оси — разница в высоте видна сверху.",
+    center:
+      "Элементы выравниваются по центру поперечной оси.",
+    baseline:
+      "Элементы выравниваются по базовой линии первого текста.",
+  };
+
+  const render = () => {
+    const value = document.querySelector('[name="align"]:checked').value;
+    container.classList.remove("flex-start", "flex-end", "center", "baseline");
+    container.classList.add(value);
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      `  align-items: ${value};`,
+      "  gap: 12px;",
+      "}",
+    ]);
+
+    description.textContent = texts[value];
+  };
+
+  render();
+  radios.forEach((radio) => radio.addEventListener("change", render));
+</script>

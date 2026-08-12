@@ -1,0 +1,119 @@
+---
+import DemoLayout from "@/layouts/DemoLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Что такое флексбокс: главная и поперечная оси";
+const description = "";
+---
+
+<DemoLayout title={title} description={description}>
+  <div class="axes">
+    <div class="axes__main">
+      <span class="axes__label">главная ось</span>
+      <span class="axes__line"></span>
+      <span class="axes__arrow"></span>
+    </div>
+
+    <div class="axes__cross">
+      <span class="axes__line"></span>
+      <span class="axes__arrow"></span>
+      <span class="axes__label">поперечная ось</span>
+    </div>
+
+    <div class="axes__children">
+      <Child>1</Child>
+      <Child>2</Child>
+      <Child>3</Child>
+    </div>
+  </div>
+</DemoLayout>
+
+<style is:global>
+  .axes {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "main main"
+      "cross children";
+    column-gap: 24px;
+    row-gap: 12px;
+    width: 100%;
+  }
+
+  .axes__main {
+    grid-area: main;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-color);
+  }
+
+  .axes__cross {
+    grid-area: cross;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    color: var(--accent-color);
+  }
+
+  .axes__label {
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .axes__line {
+    background: currentColor;
+    flex: 1;
+  }
+
+  .axes__main .axes__line {
+    height: 3px;
+  }
+
+  .axes__cross .axes__line {
+    width: 3px;
+  }
+
+  .axes__arrow {
+    flex: none;
+    width: 0;
+    height: 0;
+    border: 0;
+  }
+
+  .axes__main .axes__arrow {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 16px solid currentColor;
+  }
+
+  .axes__cross .axes__arrow {
+    border-top: 16px solid currentColor;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+  }
+
+  .axes__children {
+    grid-area: children;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .axes__children .child {
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .axes__children .child:nth-child(2) {
+    padding: 64px 24px;
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import Head from "@/components/base/Head.astro";
+import "@/assets/scss/main.scss";
 
 const { title = "Интерактивные демо", description = "" } = Astro.props;
 ---
@@ -11,24 +12,3 @@ const { title = "Интерактивные демо", description = "" } = Astr
     <slot />
   </body>
 </html>
-
-<style is:global>
-  :root {
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    color: #222;
-    background: #fff;
-    line-height: 1.5;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0;
-  }
-
-  a {
-    color: #5b5ce2;
-  }
-</style>

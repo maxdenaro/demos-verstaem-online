@@ -1,0 +1,20 @@
+---
+import DemoLayout from "@/layouts/DemoLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Что такое флексбокс: flex-верстка";
+const description = "";
+---
+
+<DemoLayout title={title} description={description}>
+  <Child>1</Child>
+  <Child>2</Child>
+  <Child>3</Child>
+</DemoLayout>
+
+<style is:global>
+  .demo__inner {
+    display: flex;
+    gap: 20px;
+  }
+</style>

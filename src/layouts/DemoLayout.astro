@@ -1,13 +1,20 @@
 ---
 import Head from "@/components/base/Head.astro";
+import "@/assets/scss/main.scss";
 
 const { title = "Демо", description = "" } = Astro.props;
 ---
 
-<html lang="ru">
+<html lang="ru" class="page">
   <Head title={title} description={description} />
 
-  <body>
-    <slot />
+  <body class="page__body">
+    <div class="demo">
+      <div class="container">
+        <div class="demo__inner">
+          <slot />
+        </div>
+      </div>
+    </div>
   </body>
 </html>

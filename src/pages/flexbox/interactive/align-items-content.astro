@@ -45,15 +45,15 @@ const description =
 
     <label class="range">
       <span class="range__label">
-        Ширина контейнера: <b id="width-value">100%</b>
+        Ширина контейнера: <b id="width-value">520px</b>
       </span>
       <input
         class="range__input"
         id="width-range"
         type="range"
-        min="45"
-        max="100"
-        value="100"
+        min="320"
+        max="520"
+        value="520"
         step="1"
       />
     </label>
@@ -155,7 +155,8 @@ const description =
     align-content: flex-start;
     gap: 12px;
     height: 320px;
-    max-width: 980px;
+    width: 520px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 16px;
     border-radius: var(--border-radius);
@@ -172,43 +173,43 @@ const description =
   }
 
   .demo-interactive .child:nth-child(1) {
-    width: 140px;
-    height: 70px;
+    width: 105px;
+    height: 45px;
   }
 
   .demo-interactive .child:nth-child(2) {
-    width: 110px;
-    height: 110px;
-  }
-
-  .demo-interactive .child:nth-child(3) {
-    width: 160px;
-    height: 90px;
-  }
-
-  .demo-interactive .child:nth-child(4) {
-    width: 130px;
+    width: 85px;
     height: 60px;
   }
 
+  .demo-interactive .child:nth-child(3) {
+    width: 100px;
+    height: 50px;
+  }
+
+  .demo-interactive .child:nth-child(4) {
+    width: 90px;
+    height: 40px;
+  }
+
   .demo-interactive .child:nth-child(5) {
-    width: 150px;
-    height: 120px;
+    width: 110px;
+    height: 55px;
   }
 
   .demo-interactive .child:nth-child(6) {
-    width: 120px;
-    height: 80px;
+    width: 95px;
+    height: 45px;
   }
 
   .demo-interactive .child:nth-child(7) {
-    width: 170px;
-    height: 100px;
+    width: 105px;
+    height: 60px;
   }
 
   .demo-interactive .child:nth-child(8) {
-    width: 140px;
-    height: 70px;
+    width: 90px;
+    height: 50px;
   }
 
   .demo-interactive.ai-center {
@@ -316,8 +317,8 @@ const description =
     );
     if (ai !== "flex-start") container.classList.add(`ai-${ai}`);
     if (ac !== "flex-start") container.classList.add(`ac-${ac}`);
-    container.style.width = `${width}%`;
-    widthValue.textContent = `${width}%`;
+    container.style.width = `${width}px`;
+    widthValue.textContent = `${width}px`;
 
     window.renderInteractiveCode([
       ".demo-interactive {",
@@ -326,7 +327,7 @@ const description =
       `  align-items: ${ai};`,
       `  align-content: ${ac};`,
       "  gap: 12px;",
-      `  width: ${width}%;`,
+      `  width: ${width}px;`,
       "  height: 320px;",
       "}",
     ]);

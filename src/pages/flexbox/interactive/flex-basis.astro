@@ -1,0 +1,209 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: flex-basis";
+const description =
+  "flex-basis задаёт размер элемента вдоль главной оси — ширину при row, высоту при column. Вдоль главной оси он перекрывает width.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div
+    class="demo-interactive"
+    id="container"
+    style="--basis: 220px"
+    slot="preview"
+  >
+    <Child>
+      <div class="item">
+        <span class="item__axis" data-axis>basis → ширина</span>
+        <span class="item__name">Блок 1</span>
+        <span class="item__decl">width: 200px</span>
+        <span class="item__decl">flex-basis: <b data-size>220</b>px</span>
+      </div>
+    </Child>
+    <Child>
+      <div class="item">
+        <span class="item__axis" data-axis>basis → ширина</span>
+        <span class="item__name">Блок 2</span>
+        <span class="item__decl">width: 200px</span>
+        <span class="item__decl">flex-basis: <b data-size>220</b>px</span>
+      </div>
+    </Child>
+    <Child>
+      <div class="item">
+        <span class="item__axis" data-axis>basis → ширина</span>
+        <span class="item__name">Блок 3</span>
+        <span class="item__decl">width: 200px</span>
+        <span class="item__decl">flex-basis: <b data-size>220</b>px</span>
+      </div>
+    </Child>
+  </div>
+
+  <Fragment slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="flex-direction">
+      <Radio name="direction" value="row" label="row" checked />
+      <Radio name="direction" value="column" label="column" />
+    </div>
+
+    <label class="range">
+      <span class="range__label">
+        flex-basis: <b id="basis-value">220px</b>
+      </span>
+      <input
+        class="range__input"
+        id="basis-range"
+        type="range"
+        min="90"
+        max="280"
+        value="220"
+        step="1"
+      />
+    </label>
+
+    <p class="interactive__description" id="description">
+      Главная ось идёт слева направо — flex-basis задаёт ширину блоков и перекрывает width: 200px.
+    </p>
+  </Fragment>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .demo-interactive {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    height: 240px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    transition: 0.3s;
+  }
+
+  .demo-interactive.column {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .demo-interactive .child {
+    flex: 0 0 var(--basis, 200px);
+    width: 200px;
+    padding: 10px;
+  }
+
+  .item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .item__axis {
+    position: absolute;
+    top: -13px;
+    left: 6px;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--accent-color);
+    background: var(--bg-primary);
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px var(--accent-color);
+  }
+
+  .item__name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .item__decl {
+    font-size: 11px;
+    color: var(--text-tretiary);
+    white-space: nowrap;
+  }
+
+  .item__decl b {
+    color: var(--text-primary);
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+  }
+
+  .range__label b {
+    color: var(--text-primary);
+  }
+
+  .range__input {
+    width: 100%;
+    accent-color: var(--accent-color);
+  }
+</style>
+
+<script is:inline>
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+  const radios = document.querySelectorAll('[name="direction"]');
+  const range = document.getElementById("basis-range");
+  const basisValue = document.getElementById("basis-value");
+
+  const render = () => {
+    const direction = document.querySelector('[name="direction"]:checked').value;
+    const basis = Number(range.value);
+    const isColumn = direction === "column";
+    const dimension = isColumn ? "высота" : "ширина";
+
+    container.classList.toggle("column", isColumn);
+    container.style.setProperty("--basis", `${basis}px`);
+    basisValue.textContent = `${basis}px`;
+
+    container.querySelectorAll("[data-size]").forEach((el) => {
+      el.textContent = basis;
+    });
+    container.querySelectorAll("[data-axis]").forEach((el) => {
+      el.textContent = `basis → ${dimension}`;
+    });
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      `  flex-direction: ${direction};`,
+      "  gap: 12px;",
+      "}",
+      "",
+      ".child {",
+      "  width: 200px;",
+      `  flex-basis: ${basis}px;`,
+      "}",
+    ]);
+
+    description.textContent = isColumn
+      ? "Главная ось идёт сверху вниз — flex-basis задаёт высоту блоков, а width: 200px по-прежнему определяет их ширину."
+      : "Главная ось идёт слева направо — flex-basis задаёт ширину блоков и перекрывает width: 200px.";
+  };
+
+  render();
+  radios.forEach((radio) => radio.addEventListener("change", render));
+  range.addEventListener("input", render);
+  range.addEventListener("change", render);
+</script>

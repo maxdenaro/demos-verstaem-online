@@ -1,0 +1,138 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Flexbox: flex-wrap: wrap";
+const description =
+  "Элементы не сжимаются — при нехватке места они переносятся на новую строку.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>1</Child>
+    <Child>2</Child>
+    <Child>3</Child>
+    <Child>4</Child>
+    <Child>5</Child>
+  </div>
+
+  <Fragment slot="controls">
+    <label class="range">
+      <span class="range__label">
+        Ширина контейнера: <b id="width-value">100%</b>
+      </span>
+      <input
+        class="range__input"
+        id="width-range"
+        type="range"
+        min="25"
+        max="100"
+        value="100"
+        step="1"
+      />
+    </label>
+
+    <p class="interactive__description" id="description">
+      Все пять элементов помещаются в одну строку. Сузьте контейнер — элементы будут переноситься на новые строки.
+    </p>
+  </Fragment>
+</InteractiveLayout>
+
+<style is:global>
+  .demo-interactive {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    width: 120px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    width: 150px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    width: 130px;
+  }
+
+  .demo-interactive .child:nth-child(4) {
+    width: 160px;
+  }
+
+  .demo-interactive .child:nth-child(5) {
+    width: 140px;
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+  }
+
+  .range__label b {
+    color: var(--text-primary);
+  }
+
+  .range__input {
+    width: 100%;
+    accent-color: var(--accent-color);
+  }
+</style>
+
+<script is:inline>
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+  const range = document.getElementById("width-range");
+  const widthValue = document.getElementById("width-value");
+
+  const render = () => {
+    const width = Number(range.value);
+
+    container.style.width = `${width}%`;
+    widthValue.textContent = `${width}%`;
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      "  flex-wrap: wrap;",
+      "  gap: 12px;",
+      `  width: ${width}%;`,
+      "}",
+    ]);
+
+    const rows = new Set();
+    const children = [...container.children];
+    children.forEach((child) => rows.add(child.offsetTop));
+    const rowCount = rows.size;
+
+    description.textContent =
+      rowCount === 1
+        ? "Все пять элементов помещаются в одну строку."
+        : rowCount === 2
+          ? "Места не хватило — часть элементов перенеслась на вторую строку."
+          : "Контейнер узкий: элементы перенеслись на несколько строк.";
+  };
+
+  render();
+  range.addEventListener("input", render);
+  range.addEventListener("change", render);
+</script>

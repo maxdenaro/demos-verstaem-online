@@ -15,7 +15,7 @@ const description =
     <Child>Блок 3</Child>
   </div>
 
-  <div slot="controls">
+  <Fragment slot="controls">
     <div class="radio-group" role="radiogroup" aria-label="flex-direction">
       <Radio name="direction" value="row" label="row" checked />
       <Radio name="direction" value="column" label="column" />
@@ -24,7 +24,7 @@ const description =
     <p class="interactive__description" id="description">
       Главная ось направлена слева направо, поэтому justify-content: center ставит элементы в центр по горизонтали.
     </p>
-  </div>
+  </Fragment>
 </InteractiveLayout>
 
 <style is:global>

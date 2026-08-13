@@ -16,7 +16,7 @@ const description =
     <Child>Блок 4</Child>
   </div>
 
-  <div slot="controls">
+  <Fragment slot="controls">
     <div class="radio-group" role="radiogroup" aria-label="align-items">
       <Radio name="align" value="flex-start" label="flex-start" checked />
       <Radio name="align" value="center" label="center" />
@@ -27,7 +27,7 @@ const description =
     <p class="interactive__description" id="description">
       Верхние края элементов выравниваются по одной линии — по началу поперечной оси.
     </p>
-  </div>
+  </Fragment>
 </InteractiveLayout>
 
 <style is:global>

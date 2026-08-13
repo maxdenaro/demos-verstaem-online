@@ -21,7 +21,7 @@ const description =
     </div>
   </div>
 
-  <div slot="controls">
+  <Fragment slot="controls">
     <div class="radio-group" role="radiogroup" aria-label="justify-content">
       <Radio name="justify" value="flex-start" label="flex-start" checked />
       <Radio name="justify" value="space-between" label="space-between" />
@@ -30,7 +30,7 @@ const description =
     <p class="interactive__description" id="description">
       Заголовок и кнопка прижаты друг к другу у начала главной оси — слева.
     </p>
-  </div>
+  </Fragment>
 </InteractiveLayout>
 
 <style is:global>

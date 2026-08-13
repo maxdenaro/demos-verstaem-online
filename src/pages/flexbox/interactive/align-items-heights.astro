@@ -15,7 +15,7 @@ const description =
     <Child>Блок 3</Child>
   </div>
 
-  <div slot="controls">
+  <Fragment slot="controls">
     <div class="radio-group" role="radiogroup" aria-label="align-items">
       <Radio name="align" value="stretch" label="stretch" checked />
       <Radio name="align" value="flex-start" label="flex-start" />
@@ -27,7 +27,7 @@ const description =
     <p class="interactive__description" id="description">
       Все элементы растягиваются на всю высоту контейнера по поперечной оси.
     </p>
-  </div>
+  </Fragment>
 </InteractiveLayout>
 
 <style is:global>

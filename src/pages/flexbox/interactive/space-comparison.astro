@@ -15,7 +15,7 @@ const description =
     <Child>3</Child>
   </div>
 
-  <div slot="controls">
+  <Fragment slot="controls">
     <div class="radio-group" role="radiogroup" aria-label="justify-content">
       <Radio name="justify" value="space-between" label="space-between" checked />
       <Radio name="justify" value="space-around" label="space-around" />
@@ -25,7 +25,7 @@ const description =
     <p class="interactive__description" id="description">
       Первый элемент у левого края, последний — у правого. Свободное пространство — только между элементами.
     </p>
-  </div>
+  </Fragment>
 </InteractiveLayout>
 
 <style is:global>

@@ -1,0 +1,45 @@
+---
+import DemoLayout from "@/layouts/DemoLayout.astro";
+
+const title = "Что такое флексбокс: вертикальное меню";
+const description = "";
+---
+
+<DemoLayout title={title} description={description}>
+  <nav class="menu">
+    <ul class="menu__list">
+      <li class="menu__item"><a class="menu__link" href="#">Главная</a></li>
+      <li class="menu__item"><a class="menu__link" href="#">Проекты</a></li>
+      <li class="menu__item"><a class="menu__link" href="#">Команда</a></li>
+      <li class="menu__item"><a class="menu__link" href="#">Контакты</a></li>
+    </ul>
+  </nav>
+</DemoLayout>
+
+<style is:global>
+  .menu__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 240px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu__link {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: var(--text-tretiary);
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .menu__link:hover {
+    color: var(--text-secondary);
+    background: var(--accent-color);
+  }
+</style>

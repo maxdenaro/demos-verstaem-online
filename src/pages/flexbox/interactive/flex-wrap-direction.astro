@@ -1,0 +1,192 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Flexbox: flex-wrap: wrap при row и column";
+const description =
+  "flex-direction задаёт направление главной оси, а flex-wrap: wrap переносит элементы: при row — на новые строки, при column — в новые колонки.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>1</Child>
+    <Child>2</Child>
+    <Child>3</Child>
+    <Child>4</Child>
+    <Child>5</Child>
+    <Child>6</Child>
+  </div>
+
+  <Fragment slot="controls">
+    <label class="checkbox">
+      <input class="checkbox__input" type="checkbox" id="toggle" />
+      <span class="checkbox__box"></span>
+      <span class="checkbox__label">Сделать колонкой (flex-direction: column)</span>
+    </label>
+
+    <label class="range">
+      <span class="range__label">
+        Ширина контейнера: <b id="width-value">100%</b>
+      </span>
+      <input
+        class="range__input"
+        id="width-range"
+        type="range"
+        min="35"
+        max="100"
+        value="100"
+        step="1"
+      />
+    </label>
+
+    <label class="range">
+      <span class="range__label">
+        Высота контейнера: <b id="height-value">320px</b>
+      </span>
+      <input
+        class="range__input"
+        id="height-range"
+        type="range"
+        min="200"
+        max="420"
+        value="320"
+        step="1"
+      />
+    </label>
+
+    <p class="interactive__description" id="description">
+      Главная ось идёт слева направо. flex-wrap: wrap разрешён, но сейчас все элементы помещаются в одну строку.
+    </p>
+  </Fragment>
+</InteractiveLayout>
+
+<style is:global>
+  .demo-interactive {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+    height: 320px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    transition: 0.3s;
+  }
+
+  .demo-interactive.column {
+    flex-direction: column;
+  }
+
+  .demo-interactive .child {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    width: 110px;
+    height: 60px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    width: 140px;
+    height: 90px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    width: 120px;
+    height: 70px;
+  }
+
+  .demo-interactive .child:nth-child(4) {
+    width: 150px;
+    height: 100px;
+  }
+
+  .demo-interactive .child:nth-child(5) {
+    width: 130px;
+    height: 80px;
+  }
+
+  .demo-interactive .child:nth-child(6) {
+    width: 100px;
+    height: 60px;
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+  }
+
+  .range__label b {
+    color: var(--text-primary);
+  }
+
+  .range__input {
+    width: 100%;
+    accent-color: var(--accent-color);
+  }
+</style>
+
+<script is:inline>
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+  const toggle = document.getElementById("toggle");
+  const widthRange = document.getElementById("width-range");
+  const heightRange = document.getElementById("height-range");
+  const widthValue = document.getElementById("width-value");
+  const heightValue = document.getElementById("height-value");
+
+  const render = () => {
+    const column = toggle.checked;
+    const width = Number(widthRange.value);
+    const height = Number(heightRange.value);
+
+    container.classList.toggle("column", column);
+    container.style.width = `${width}%`;
+    container.style.height = `${height}px`;
+    widthValue.textContent = `${width}%`;
+    heightValue.textContent = `${height}px`;
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      `  flex-direction: ${column ? "column" : "row"};`,
+      "  flex-wrap: wrap;",
+      "  gap: 12px;",
+      `  width: ${width}%;`,
+      `  height: ${height}px;`,
+      "}",
+    ]);
+
+    const rows = new Set();
+    const columns = new Set();
+    [...container.children].forEach((child) => {
+      rows.add(child.offsetTop);
+      columns.add(child.offsetLeft);
+    });
+
+    description.textContent = column
+      ? columns.size === 1
+        ? "Главная ось идёт сверху вниз. flex-wrap: wrap разрешён, но сейчас все элементы помещаются в одну колонку. Уменьшите высоту, чтобы увидеть перенос."
+        : "Главная ось идёт сверху вниз. Места по высоте не хватило — элементы переносятся в новые колонки слева направо."
+      : rows.size === 1
+        ? "Главная ось идёт слева направо. flex-wrap: wrap разрешён, но сейчас все элементы помещаются в одну строку. Сузьте контейнер, чтобы увидеть перенос."
+        : "Главная ось идёт слева направо. Места по ширине не хватило — элементы переносятся на новые строки сверху вниз.";
+  };
+
+  render();
+  toggle.addEventListener("change", render);
+  widthRange.addEventListener("input", render);
+  widthRange.addEventListener("change", render);
+  heightRange.addEventListener("input", render);
+  heightRange.addEventListener("change", render);
+</script>

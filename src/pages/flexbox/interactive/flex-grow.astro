@@ -1,0 +1,90 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Flexbox: flex-grow";
+const description =
+  "flex-grow задаёт коэффициент роста элемента: 0 — элемент не растёт, 1 — элемент забирает всё свободное место контейнера.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>1</Child>
+    <Child>2</Child>
+    <Child>3</Child>
+  </div>
+
+  <Fragment slot="controls">
+    <label class="checkbox">
+      <input class="checkbox__input" type="checkbox" id="toggle" />
+      <span class="checkbox__box"></span>
+      <span class="checkbox__label">Включить flex-grow: 1 для блока 2</span>
+    </label>
+
+    <p class="interactive__description" id="description">
+      У блока 2 flex-grow: 0 — он занимает только свою ширину, а свободное место остаётся после всех блоков.
+    </p>
+  </Fragment>
+</InteractiveLayout>
+
+<style is:global>
+  .demo-interactive {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .demo-interactive .child:nth-child(1),
+  .demo-interactive .child:nth-child(3) {
+    flex-basis: 100px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    flex-basis: 120px;
+    border: 1px dashed var(--accent-color);
+  }
+
+  .demo-interactive.grow .child:nth-child(2) {
+    flex-grow: 1;
+  }
+</style>
+
+<script is:inline>
+  const toggle = document.getElementById("toggle");
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+
+  const render = () => {
+    const grow = toggle.checked;
+    container.classList.toggle("grow", grow);
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      "  gap: 12px;",
+      "}",
+      "",
+      ".child:nth-child(2) {",
+      `  flex-grow: ${grow ? 1 : 0};`,
+      "}",
+    ]);
+
+    description.textContent = grow
+      ? "У блока 2 flex-grow: 1 — он растянулся и занял всё свободное место, которое оставалось после трёх блоков."
+      : "У блока 2 flex-grow: 0 — он занимает только свою ширину, а свободное место остаётся после всех блоков.";
+  };
+
+  render();
+  toggle.addEventListener("change", render);
+</script>

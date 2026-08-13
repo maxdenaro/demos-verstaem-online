@@ -1,0 +1,127 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: space-between в панели";
+const description =
+  "Пространство при space-between распределяется между элементами. Так заголовок уходит влево, а кнопка — вправо.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="panel" slot="preview">
+    <div class="panel__bar" id="bar">
+      <h2 class="panel__title">Заголовок панели</h2>
+      <button class="panel__button" type="button">Кнопка</button>
+    </div>
+    <div class="panel__content">
+      <p>
+        Содержимое панели. Шапка с заголовком и кнопкой — обычный flex-контейнер с
+        justify-content.
+      </p>
+    </div>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="justify-content">
+      <Radio name="justify" value="flex-start" label="flex-start" checked />
+      <Radio name="justify" value="space-between" label="space-between" />
+    </div>
+
+    <p class="interactive__description" id="description">
+      Заголовок и кнопка прижаты друг к другу у начала главной оси — слева.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .panel {
+    width: 100%;
+    border: 1px solid rgba(208, 206, 206, 0.2);
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    overflow: hidden;
+  }
+
+  .panel__bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--bg-primary);
+    border-bottom: 1px solid rgba(208, 206, 206, 0.2);
+    transition: 0.3s;
+  }
+
+  .panel__bar.space-between {
+    justify-content: space-between;
+  }
+
+  .panel__title {
+    margin: 0;
+    font-family: var(--title-font-family);
+    font-size: 20px;
+    color: var(--text-primary);
+  }
+
+  .panel__button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--accent-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .panel__button:hover {
+    background: var(--accent-hover-color);
+  }
+
+  .panel__content {
+    padding: 24px;
+  }
+
+  .panel__content p {
+    margin: 0;
+    color: var(--text-tretiary);
+  }
+</style>
+
+<script is:inline>
+  const radios = document.querySelectorAll('[name="justify"]');
+  const bar = document.getElementById("bar");
+  const description = document.getElementById("description");
+
+  const texts = {
+    "flex-start":
+      "Заголовок и кнопка прижаты друг к другу у начала главной оси — слева.",
+    "space-between":
+      "Свободное пространство распределяется между элементами: заголовок у левого края, кнопка у правого.",
+  };
+
+  const render = () => {
+    const value = document.querySelector('[name="justify"]:checked').value;
+    bar.classList.toggle("space-between", value === "space-between");
+
+    window.renderInteractiveCode([
+      ".panel__bar {",
+      "  display: flex;",
+      "  align-items: center;",
+      `  justify-content: ${value};`,
+      "}",
+    ]);
+
+    description.textContent = texts[value];
+  };
+
+  render();
+  radios.forEach((radio) => radio.addEventListener("change", render));
+</script>

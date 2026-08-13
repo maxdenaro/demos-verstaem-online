@@ -1,0 +1,159 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: свободное пространство и размер контейнера";
+const description =
+  "Свободное пространство появляется, когда контейнер шире суммы элементов. Сделайте его уже — и пространство исчезнет.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>1</Child>
+    <Child>2</Child>
+    <Child>3</Child>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="justify-content">
+      <Radio name="justify" value="flex-start" label="flex-start" checked />
+      <Radio name="justify" value="center" label="center" />
+      <Radio name="justify" value="space-between" label="space-between" />
+    </div>
+
+    <label class="range">
+      <span class="range__label">
+        Ширина контейнера: <b id="width-value">100%</b>
+      </span>
+      <input
+        class="range__input"
+        id="width-range"
+        type="range"
+        min="35"
+        max="100"
+        value="100"
+        step="1"
+      />
+    </label>
+
+    <p class="interactive__description" id="description">
+      Контейнер широкий — свободного места много. Элементы прижаты к началу главной оси.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .demo-interactive {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    height: 240px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    width: 90px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    width: 130px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    width: 180px;
+  }
+
+  .demo-interactive.center {
+    justify-content: center;
+  }
+
+  .demo-interactive.space-between {
+    justify-content: space-between;
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+  }
+
+  .range__label b {
+    color: var(--text-primary);
+  }
+
+  .range__input {
+    width: 100%;
+    accent-color: var(--accent-color);
+  }
+</style>
+
+<script is:inline>
+  const justifyRadios = document.querySelectorAll('[name="justify"]');
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+  const range = document.getElementById("width-range");
+  const widthValue = document.getElementById("width-value");
+
+  const render = () => {
+    const justify = document.querySelector('[name="justify"]:checked').value;
+    const width = Number(range.value);
+
+    container.classList.remove("center", "space-between");
+    if (justify !== "flex-start") container.classList.add(justify);
+    container.style.width = `${width}%`;
+    widthValue.textContent = `${width}%`;
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      `  justify-content: ${justify};`,
+      "  gap: 12px;",
+      `  width: ${width}%;`,
+      "}",
+    ]);
+
+    const sizeNote =
+      width < 55
+        ? "Контейнер узкий — свободного места почти нет."
+        : width < 80
+          ? "Контейнер средней ширины — свободного места немного."
+          : "Контейнер широкий — свободного места много.";
+
+    const justifyPart = {
+      "flex-start": "Элементы прижаты к началу главной оси.",
+      center: "Элементы сгруппированы по центру: пространство поделено поровну с двух сторон.",
+      "space-between":
+        "Пространство распределено между элементами: крайние прижаты к краям.",
+    }[justify];
+
+    description.textContent = `${sizeNote} ${justifyPart}`;
+  };
+
+  render();
+  justifyRadios.forEach((radio) => radio.addEventListener("change", render));
+  range.addEventListener("input", render);
+  range.addEventListener("change", render);
+</script>

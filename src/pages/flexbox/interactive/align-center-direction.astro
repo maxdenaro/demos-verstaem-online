@@ -1,0 +1,101 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: row / column с align-items: center";
+const description =
+  "align-items: center выравнивает элементы по поперечной оси. При смене направления поперечная ось поворачивается вместе с ней.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>Блок 1</Child>
+    <Child>Блок 2</Child>
+    <Child>Блок 3</Child>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="flex-direction">
+      <Radio name="direction" value="row" label="row" checked />
+      <Radio name="direction" value="column" label="column" />
+    </div>
+
+    <p class="interactive__description" id="description">
+      При row поперечная ось вертикальная — align-items: center ставит каждый элемент в центр по высоте.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .demo-interactive {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    height: 320px;
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    width: 90px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    width: 130px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    width: 180px;
+  }
+
+  .demo-interactive.column {
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
+
+<script is:inline>
+  const radios = document.querySelectorAll('[name="direction"]');
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+
+  const texts = {
+    row: "При row поперечная ось вертикальная — align-items: center ставит каждый элемент в центр по высоте.",
+    column:
+      "При column поперечная ось горизонтальная — align-items: center ставит каждый элемент в центр по ширине, и колонка выглядит отцентрированной.",
+  };
+
+  const render = () => {
+    const value = document.querySelector('[name="direction"]:checked').value;
+    container.classList.toggle("column", value === "column");
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      `  flex-direction: ${value};`,
+      "  align-items: center;",
+      "  gap: 12px;",
+      "}",
+    ]);
+
+    description.textContent = texts[value];
+  };
+
+  render();
+  radios.forEach((radio) => radio.addEventListener("change", render));
+</script>

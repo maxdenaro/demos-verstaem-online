@@ -13,7 +13,7 @@ const description =
     <div class="positioning__card positioning__card--big">2</div>
   </div>
 
-  <div slot="controls">
+  <Fragment slot="controls">
     <div class="radio-selector">
       <p class="radio-selector__title">justify-content</p>
       <div class="radio-group" role="radiogroup" aria-label="justify-content">
@@ -39,16 +39,19 @@ const description =
 
     <p class="interactive__description">
       <span class="interactive__property">justify-content</span>
-      <span id="justify-description">Элементы прижаты к началу главной оси, слева.</span>
+      <span id="justify-description"
+        >Элементы прижаты к началу главной оси, слева.</span
+      >
     </p>
 
     <p class="interactive__description">
       <span class="interactive__property">align-items</span>
       <span id="align-description">
-        Элементы растягиваются по поперечной оси, но фиксированная высота их сохраняет.
+        Элементы растягиваются по поперечной оси, но фиксированная высота их
+        сохраняет.
       </span>
     </p>
-  </div>
+  </Fragment>
 </InteractiveLayout>
 
 <style is:global>
@@ -226,7 +229,8 @@ const description =
     stretch:
       "Элементы растягиваются по поперечной оси, но фиксированная высота их сохраняет.",
     "flex-start": "Элементы выровнены по началу поперечной оси, сверху.",
-    "flex-end": "Элементы прижаты к концу поперечной оси, снизу — разница в высоте видна сверху.",
+    "flex-end":
+      "Элементы прижаты к концу поперечной оси, снизу — разница в высоте видна сверху.",
     center: "Элементы выровнены по центру поперечной оси.",
     baseline: "Элементы выровнены по базовой линии текста.",
   };

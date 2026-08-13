@@ -1,0 +1,154 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: flex-start, center и flex-end при row и column";
+const description =
+  "justify-content выравнивает по главной оси, а flex-direction задаёт её направление. Комбинации дают все шесть положений элементов.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>1</Child>
+    <Child>2</Child>
+    <Child>3</Child>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-selector">
+      <p class="radio-selector__title">flex-direction</p>
+      <div class="radio-group" role="radiogroup" aria-label="flex-direction">
+        <Radio name="direction" value="row" label="row" checked />
+        <Radio name="direction" value="column" label="column" />
+      </div>
+    </div>
+
+    <div class="radio-selector">
+      <p class="radio-selector__title">justify-content</p>
+      <div class="radio-group" role="radiogroup" aria-label="justify-content">
+        <Radio name="justify" value="flex-start" label="flex-start" checked />
+        <Radio name="justify" value="center" label="center" />
+        <Radio name="justify" value="flex-end" label="flex-end" />
+      </div>
+    </div>
+
+    <p class="interactive__description" id="description">
+      Главная ось идёт слева направо. justify-content: flex-start прижимает элементы к началу — к левому краю.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .radio-selector__title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-fourthly);
+  }
+
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .demo-interactive {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 12px;
+    height: 320px;
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    width: 90px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    width: 130px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    width: 180px;
+  }
+
+  .demo-interactive.j-center {
+    justify-content: center;
+  }
+
+  .demo-interactive.j-flex-end {
+    justify-content: flex-end;
+  }
+
+  .demo-interactive.column {
+    flex-direction: column;
+  }
+</style>
+
+<script is:inline>
+  const directionRadios = document.querySelectorAll('[name="direction"]');
+  const justifyRadios = document.querySelectorAll('[name="justify"]');
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+
+  const texts = {
+    row: {
+      "flex-start":
+        "Главная ось идёт слева направо. justify-content: flex-start прижимает элементы к началу — к левому краю.",
+      center:
+        "Главная ось идёт слева направо. justify-content: center ставит элементы в центр по горизонтали.",
+      "flex-end":
+        "Главная ось идёт слева направо. justify-content: flex-end прижимает элементы к концу — к правому краю.",
+    },
+    column: {
+      "flex-start":
+        "Главная ось идёт сверху вниз. justify-content: flex-start прижимает элементы к началу — к верхнему краю.",
+      center:
+        "Главная ось идёт сверху вниз. justify-content: center ставит элементы в центр по вертикали.",
+      "flex-end":
+        "Главная ось идёт сверху вниз. justify-content: flex-end прижимает элементы к концу — к нижнему краю.",
+    },
+  };
+
+  const render = () => {
+    const direction = document.querySelector('[name="direction"]:checked').value;
+    const justify = document.querySelector('[name="justify"]:checked').value;
+
+    container.classList.remove("j-center", "j-flex-end");
+    container.classList.toggle("column", direction === "column");
+    if (justify !== "flex-start") container.classList.add(`j-${justify}`);
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      `  flex-direction: ${direction};`,
+      `  justify-content: ${justify};`,
+      "  gap: 12px;",
+      "}",
+    ]);
+
+    description.textContent = texts[direction][justify];
+  };
+
+  render();
+  directionRadios.forEach((radio) => radio.addEventListener("change", render));
+  justifyRadios.forEach((radio) => radio.addEventListener("change", render));
+</script>

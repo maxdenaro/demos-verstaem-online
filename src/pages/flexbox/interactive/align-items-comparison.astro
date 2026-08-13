@@ -1,0 +1,117 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: flex-start, center, flex-end и stretch";
+const description =
+  "Сравнение четырёх значений align-items на элементах разной высоты.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>Блок 1</Child>
+    <Child>Блок 2</Child>
+    <Child>Блок 3</Child>
+    <Child>Блок 4</Child>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="align-items">
+      <Radio name="align" value="flex-start" label="flex-start" checked />
+      <Radio name="align" value="center" label="center" />
+      <Radio name="align" value="flex-end" label="flex-end" />
+      <Radio name="align" value="stretch" label="stretch" />
+    </div>
+
+    <p class="interactive__description" id="description">
+      Верхние края элементов выравниваются по одной линии — по началу поперечной оси.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .demo-interactive {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    height: 300px;
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    padding: 16px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    padding: 40px 16px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    padding: 64px 16px;
+  }
+
+  .demo-interactive .child:nth-child(4) {
+    padding: 88px 16px;
+  }
+
+  .demo-interactive.center {
+    align-items: center;
+  }
+
+  .demo-interactive.flex-end {
+    align-items: flex-end;
+  }
+
+  .demo-interactive.stretch {
+    align-items: stretch;
+  }
+</style>
+
+<script is:inline>
+  const radios = document.querySelectorAll('[name="align"]');
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+
+  const texts = {
+    "flex-start":
+      "Верхние края элементов выравниваются по одной линии — по началу поперечной оси.",
+    center: "Элементы разной высоты центрируются по поперечной оси.",
+    "flex-end":
+      "Нижние края элементов выравниваются по одной линии — по концу поперечной оси.",
+    stretch: "Элементы растягиваются на всю высоту контейнера, высоты нивелируются.",
+  };
+
+  const render = () => {
+    const value = document.querySelector('[name="align"]:checked').value;
+    container.classList.remove("center", "flex-end", "stretch");
+    if (value !== "flex-start") container.classList.add(value);
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      `  align-items: ${value};`,
+      "  gap: 12px;",
+      "}",
+    ]);
+
+    description.textContent = texts[value];
+  };
+
+  render();
+  radios.forEach((radio) => radio.addEventListener("change", render));
+</script>

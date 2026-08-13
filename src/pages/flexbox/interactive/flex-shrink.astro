@@ -1,0 +1,105 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+
+const title = "Flexbox: flex-shrink";
+const description =
+  "flex-shrink задаёт коэффициент сжатия элемента: 1 — элемент сжимается, когда в контейнере не хватает места, 0 — элемент не сжимается и выходит за границы контейнера.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>1</Child>
+    <Child>2</Child>
+    <Child>3</Child>
+  </div>
+
+  <Fragment slot="controls">
+    <label class="checkbox">
+      <input class="checkbox__input" type="checkbox" id="toggle" />
+      <span class="checkbox__box"></span>
+      <span class="checkbox__label">Включить flex-shrink: 0</span>
+    </label>
+
+    <p class="interactive__description" id="description">
+      Суммарная ширина блоков больше ширины контейнера, но по умолчанию flex-shrink: 1 — блоки сжимаются и помещаются в контейнер.
+    </p>
+  </Fragment>
+</InteractiveLayout>
+
+<style is:global>
+  .demo-interactive {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 420px;
+    max-width: 100%;
+    height: 160px;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child {
+    flex-shrink: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    width: 180px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    width: 220px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    width: 160px;
+  }
+
+  .demo-interactive.no-shrink .child {
+    flex-shrink: 0;
+  }
+
+  .demo-interactive.overflowing {
+    outline: 2px dashed var(--error-color);
+    outline-offset: 4px;
+  }
+</style>
+
+<script is:inline>
+  const toggle = document.getElementById("toggle");
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+
+  const render = () => {
+    const noShrink = toggle.checked;
+    container.classList.toggle("no-shrink", noShrink);
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      "  gap: 12px;",
+      "  width: 420px;",
+      "}",
+      "",
+      ".child {",
+      `  flex-shrink: ${noShrink ? 0 : 1};`,
+      "}",
+    ]);
+
+    const overflowing = container.scrollWidth > container.clientWidth;
+    container.classList.toggle("overflowing", overflowing);
+
+    description.textContent = noShrink
+      ? "У блоков flex-shrink: 0 — они не сжимаются и выходят за границы контейнера."
+      : "У блоков flex-shrink: 1 — они сжимаются, чтобы поместиться в контейнер.";
+  };
+
+  render();
+  toggle.addEventListener("change", render);
+</script>

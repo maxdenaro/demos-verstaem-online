@@ -1,0 +1,429 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Child from "@/components/base/Child.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: align-items и align-content";
+const description =
+  "align-items выравнивает элементы внутри своей flex-линии, а align-content распределяет сами flex-линии по контейнеру. Линии показаны пунктирными рамками.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="demo-interactive" id="container" slot="preview">
+    <Child>1</Child>
+    <Child>2</Child>
+    <Child>3</Child>
+    <Child>4</Child>
+    <Child>5</Child>
+    <Child>6</Child>
+    <Child>7</Child>
+    <Child>8</Child>
+  </div>
+
+  <Fragment slot="controls">
+    <div class="radio-selector">
+      <p class="radio-selector__title">align-items — элементы внутри линии</p>
+      <div class="radio-group" role="radiogroup" aria-label="align-items">
+        <Radio name="align-items" value="flex-start" label="flex-start" checked />
+        <Radio name="align-items" value="center" label="center" />
+        <Radio name="align-items" value="flex-end" label="flex-end" />
+        <Radio name="align-items" value="stretch" label="stretch" />
+      </div>
+    </div>
+
+    <div class="radio-selector">
+      <p class="radio-selector__title">align-content — распределение линий</p>
+      <div class="radio-group" role="radiogroup" aria-label="align-content">
+        <Radio name="align-content" value="flex-start" label="flex-start" checked />
+        <Radio name="align-content" value="center" label="center" />
+        <Radio name="align-content" value="flex-end" label="flex-end" />
+        <Radio name="align-content" value="space-between" label="space-between" />
+        <Radio name="align-content" value="space-around" label="space-around" />
+        <Radio name="align-content" value="stretch" label="stretch" />
+      </div>
+    </div>
+
+    <label class="range">
+      <span class="range__label">
+        Ширина контейнера: <b id="width-value">100%</b>
+      </span>
+      <input
+        class="range__input"
+        id="width-range"
+        type="range"
+        min="45"
+        max="100"
+        value="100"
+        step="1"
+      />
+    </label>
+
+    <div class="legend">
+      <span class="legend__item">
+        <span class="legend__box legend__box--line"></span>
+        flex-линия
+      </span>
+      <span class="legend__item">
+        <span class="legend__box legend__box--item"></span>
+        элемент
+      </span>
+    </div>
+
+    <p class="interactive__description" id="description">
+      align-items: flex-start — элементы прижаты к началу своей flex-линии.
+      align-content: flex-start — линии прижаты к началу контейнера.
+    </p>
+  </Fragment>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .radio-selector__title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-fourthly);
+  }
+
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .legend__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-tretiary);
+  }
+
+  .legend__box {
+    width: 18px;
+    height: 12px;
+    border-radius: 4px;
+  }
+
+  .legend__box--line {
+    background: rgba(249, 236, 14, 0.07);
+    border: 1px dashed rgba(249, 236, 14, 0.55);
+  }
+
+  .legend__box--item {
+    background: var(--bg-secondary);
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+  }
+
+  .range__label b {
+    color: var(--text-primary);
+  }
+
+  .range__input {
+    width: 100%;
+    accent-color: var(--accent-color);
+  }
+
+  .demo-interactive {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 12px;
+    height: 320px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 16px;
+    border-radius: var(--border-radius);
+  }
+
+  .demo-interactive .child {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+  }
+
+  .demo-interactive .child:nth-child(1) {
+    width: 140px;
+    height: 70px;
+  }
+
+  .demo-interactive .child:nth-child(2) {
+    width: 110px;
+    height: 110px;
+  }
+
+  .demo-interactive .child:nth-child(3) {
+    width: 160px;
+    height: 90px;
+  }
+
+  .demo-interactive .child:nth-child(4) {
+    width: 130px;
+    height: 60px;
+  }
+
+  .demo-interactive .child:nth-child(5) {
+    width: 150px;
+    height: 120px;
+  }
+
+  .demo-interactive .child:nth-child(6) {
+    width: 120px;
+    height: 80px;
+  }
+
+  .demo-interactive .child:nth-child(7) {
+    width: 170px;
+    height: 100px;
+  }
+
+  .demo-interactive .child:nth-child(8) {
+    width: 140px;
+    height: 70px;
+  }
+
+  .demo-interactive.ai-center {
+    align-items: center;
+  }
+
+  .demo-interactive.ai-flex-end {
+    align-items: flex-end;
+  }
+
+  .demo-interactive.ai-stretch {
+    align-items: stretch;
+  }
+
+  .demo-interactive.ac-center {
+    align-content: center;
+  }
+
+  .demo-interactive.ac-flex-end {
+    align-content: flex-end;
+  }
+
+  .demo-interactive.ac-space-between {
+    align-content: space-between;
+  }
+
+  .demo-interactive.ac-space-around {
+    align-content: space-around;
+  }
+
+  .demo-interactive.ac-stretch {
+    align-content: stretch;
+  }
+
+  .flex-line {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    z-index: 0;
+    background: rgba(249, 236, 14, 0.07);
+    border: 1px dashed rgba(249, 236, 14, 0.55);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .flex-line__label {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    font-size: 11px;
+    line-height: 1;
+    color: rgba(249, 236, 14, 0.75);
+  }
+</style>
+
+<script is:inline>
+  const container = document.getElementById("container");
+  const description = document.getElementById("description");
+  const alignItemsRadios = document.querySelectorAll('[name="align-items"]');
+  const alignContentRadios = document.querySelectorAll('[name="align-content"]');
+  const range = document.getElementById("width-range");
+  const widthValue = document.getElementById("width-value");
+
+  const texts = {
+    ai: {
+      "flex-start":
+        "align-items: flex-start — элементы прижаты к началу (верхнему краю) своей flex-линии.",
+      center:
+        "align-items: center — элементы центрируются по вертикали внутри своей flex-линии.",
+      "flex-end":
+        "align-items: flex-end — элементы прижаты к концу (нижнему краю) своей flex-линии.",
+      stretch:
+        "align-items: stretch — элементы растягиваются на всю высоту своей flex-линии.",
+    },
+    ac: {
+      "flex-start":
+        "align-content: flex-start — flex-линии прижаты к началу контейнера (кверху).",
+      center:
+        "align-content: center — flex-линии центрируются по высоте контейнера.",
+      "flex-end":
+        "align-content: flex-end — flex-линии прижаты к концу контейнера (книзу).",
+      "space-between":
+        "align-content: space-between — лишнее место распределяется между flex-линиями, крайние прижаты к краям.",
+      "space-around":
+        "align-content: space-around — вокруг каждой flex-линии появляются одинаковые отступы.",
+      stretch:
+        "align-content: stretch — flex-линии растягиваются и заполняют всю высоту контейнера.",
+    },
+  };
+
+  const render = () => {
+    const ai = document.querySelector('[name="align-items"]:checked').value;
+    const ac = document.querySelector('[name="align-content"]:checked').value;
+    const width = Number(range.value);
+
+    container.classList.remove(
+      "ai-center",
+      "ai-flex-end",
+      "ai-stretch",
+      "ac-center",
+      "ac-flex-end",
+      "ac-space-between",
+      "ac-space-around",
+      "ac-stretch"
+    );
+    if (ai !== "flex-start") container.classList.add(`ai-${ai}`);
+    if (ac !== "flex-start") container.classList.add(`ac-${ac}`);
+    container.style.width = `${width}%`;
+    widthValue.textContent = `${width}%`;
+
+    window.renderInteractiveCode([
+      ".demo-interactive {",
+      "  display: flex;",
+      "  flex-wrap: wrap;",
+      `  align-items: ${ai};`,
+      `  align-content: ${ac};`,
+      "  gap: 12px;",
+      `  width: ${width}%;`,
+      "  height: 320px;",
+      "}",
+    ]);
+
+    drawLines(ac);
+
+    description.textContent = `${texts.ai[ai]} ${texts.ac[ac]}`;
+  };
+
+  const drawLines = (ac) => {
+    container.querySelectorAll(".flex-line").forEach((el) => el.remove());
+
+    const cs = getComputedStyle(container);
+    const pad = parseFloat(cs.paddingTop);
+    const rowGap = parseFloat(cs.rowGap);
+    const cRect = container.getBoundingClientRect();
+    const innerH = container.clientHeight - pad * 2;
+
+    const entries = [...container.querySelectorAll(".child")].map((el) => {
+      const r = el.getBoundingClientRect();
+      return {
+        el,
+        top: r.top - cRect.top - pad,
+        bottom: r.bottom - cRect.top - pad,
+        h: r.height,
+      };
+    });
+
+    entries.sort((a, b) => a.top - b.top);
+
+    const lines = [];
+    for (const e of entries) {
+      const last = lines[lines.length - 1];
+      if (last && e.top <= last.maxBottom + 1) {
+        last.items.push(e);
+        last.maxBottom = Math.max(last.maxBottom, e.bottom);
+      } else {
+        lines.push({ items: [e], maxBottom: e.bottom });
+      }
+    }
+
+    const n = lines.length;
+    const contentSizes = lines.map((l) =>
+      Math.max(...l.items.map((i) => i.h))
+    );
+    const sumContent = contentSizes.reduce((a, b) => a + b, 0);
+    const total = sumContent + rowGap * (n - 1);
+    const leftover = Math.max(0, innerH - total);
+
+    let sizes;
+    let tops = [];
+    let pos;
+
+    if (ac === "stretch") {
+      const add = leftover / n;
+      sizes = contentSizes.map((s) => s + add);
+      pos = 0;
+      for (let i = 0; i < n; i++) {
+        tops.push(pos);
+        pos += sizes[i] + rowGap;
+      }
+    } else {
+      sizes = contentSizes;
+      const extra = (() => {
+        if (ac === "center") return { start: leftover / 2, step: rowGap };
+        if (ac === "flex-end") return { start: leftover, step: rowGap };
+        if (ac === "space-between")
+          return { start: 0, step: n > 1 ? rowGap + leftover / (n - 1) : rowGap };
+        if (ac === "space-around")
+          return { start: leftover / n / 2, step: rowGap + leftover / n };
+        return { start: 0, step: rowGap };
+      })();
+      pos = extra.start;
+      for (let i = 0; i < n; i++) {
+        tops.push(pos);
+        pos += sizes[i] + extra.step;
+      }
+    }
+
+    lines.forEach((line, i) => {
+      const band = document.createElement("div");
+      band.className = "flex-line";
+      band.style.top = `${pad + tops[i]}px`;
+      band.style.height = `${sizes[i]}px`;
+
+      const label = document.createElement("span");
+      label.className = "flex-line__label";
+      label.textContent = `Линия ${i + 1}`;
+      band.appendChild(label);
+
+      container.appendChild(band);
+    });
+  };
+
+  render();
+  alignItemsRadios.forEach((radio) => radio.addEventListener("change", render));
+  alignContentRadios.forEach((radio) => radio.addEventListener("change", render));
+  range.addEventListener("input", render);
+  range.addEventListener("change", render);
+</script>

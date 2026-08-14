@@ -1,0 +1,98 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+
+const title = "Flexbox: margin-left: auto в тулбаре";
+const description =
+  "Свойство margin-left: auto забирает всё свободное пространство и прижимает меню к правому краю тулбара.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="toolbar" slot="preview">
+    <div class="logo">Logo</div>
+    <nav class="menu">
+      <a href="#">Главная</a>
+      <a href="#">Каталог</a>
+    </nav>
+  </div>
+
+  <div slot="controls">
+    <label class="checkbox">
+      <input class="checkbox__input" type="checkbox" id="toggle" checked />
+      <span class="checkbox__box"></span>
+      <span class="checkbox__label">Включить margin-left: auto</span>
+    </label>
+
+    <p class="interactive__description" id="description">
+      Автоматический отступ забирает всё свободное пространство и прижимает меню к правому краю.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 24px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    transition: 0.3s;
+  }
+
+  .logo {
+    font-family: var(--title-font-family);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-color);
+  }
+
+  .menu {
+    display: flex;
+    gap: 20px;
+    transition: 0.3s;
+  }
+
+  .menu.margin-auto {
+    margin-left: auto;
+  }
+
+  .menu a {
+    font-size: 14px;
+    color: var(--text-tretiary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .menu a:hover {
+    color: var(--text-primary);
+  }
+</style>
+
+<script is:inline>
+  const toggle = document.getElementById("toggle");
+  const menu = document.querySelector(".menu");
+  const description = document.getElementById("description");
+
+  const render = () => {
+    const on = toggle.checked;
+    menu.classList.toggle("margin-auto", on);
+
+    window.renderInteractiveCode([
+      ".toolbar {",
+      "  display: flex;",
+      "}",
+      "",
+      ".menu {",
+      `  margin-left: ${on ? "auto" : "0"};`,
+      "}",
+    ]);
+
+    description.textContent = on
+      ? "Автоматический отступ забирает всё свободное пространство и прижимает меню к правому краю."
+      : "Отступа нет: меню стоит сразу после логотипа у левого края.";
+  };
+
+  render();
+  toggle.addEventListener("change", render);
+</script>

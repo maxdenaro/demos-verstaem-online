@@ -11,20 +11,34 @@ const description =
   <div class="toolbar" slot="preview">
     <span class="toolbar__title">Заголовок</span>
 
-    <div class="toolbar__actions">
-      <button class="toolbar__button" type="button">Фильтр</button>
-      <button class="toolbar__button toolbar__button--primary" type="button">Сохранить</button>
-    </div>
+    <button class="toolbar__button" type="button">Фильтр</button>
+    <button class="toolbar__button toolbar__button--primary" type="button"
+      >Сохранить</button
+    >
   </div>
 
   <Fragment slot="controls">
-    <div class="radio-group" role="radiogroup" aria-label="Способ распределения пространства">
-      <Radio name="method" value="space-between" label="justify-content: space-between" />
-      <Radio name="method" value="margin-auto" label="margin-left: auto" checked />
+    <div
+      class="radio-group"
+      role="radiogroup"
+      aria-label="Способ распределения пространства"
+    >
+      <Radio
+        name="method"
+        value="space-between"
+        label="justify-content: space-between"
+      />
+      <Radio
+        name="method"
+        value="margin-auto"
+        label="margin-left: auto"
+        checked
+      />
     </div>
 
     <p class="interactive__description" id="description">
-      Автоматический отступ забирает всё свободное место и прижимает группу кнопок к правому краю.
+      Автоматический отступ забирает всё свободное место и прижимает группу
+      кнопок к правому краю.
     </p>
   </Fragment>
 </InteractiveLayout>
@@ -65,11 +79,11 @@ const description =
     transition: 0.3s;
   }
 
-  .toolbar.space-between .toolbar__actions {
+  .toolbar.space-between .toolbar__button:first-of-type {
     margin-left: 0;
   }
 
-  .toolbar.margin-auto .toolbar__actions {
+  .toolbar.margin-auto .toolbar__button:first-of-type {
     margin-left: auto;
   }
 
@@ -82,7 +96,10 @@ const description =
     border: 1px solid var(--text-tretiary);
     border-radius: 10px;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background 0.2s ease;
   }
 
   .toolbar__button:hover {
@@ -122,8 +139,21 @@ const description =
 
     const code =
       value === "space-between"
-        ? [".toolbar {", "  display: flex;", "  justify-content: space-between;", "}"]
-        : [".toolbar {", "  display: flex;", "}", "", ".toolbar__actions {", "  margin-left: auto;", "}"];
+        ? [
+            ".toolbar {",
+            "  display: flex;",
+            "  justify-content: space-between;",
+            "}",
+          ]
+        : [
+            ".toolbar {",
+            "  display: flex;",
+            "}",
+            "",
+            ".toolbar__actions {",
+            "  margin-left: auto;",
+            "}",
+          ];
 
     window.renderInteractiveCode(code);
 

@@ -1,0 +1,137 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+
+const title = "Flexbox: элемент прижат к низу карточки через margin-top: auto";
+const description =
+  "Карточка — flex-контейнер с направлением column, а ссылке задан margin-top: auto. Автоматический отступ забирает всё свободное место над ссылкой, поэтому она всегда оказывается у нижнего края — независимо от количества текста.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="cards" slot="preview">
+    <article class="card">
+      <h3 class="card__title">Название 1</h3>
+      <p class="card__text">Короткое описание карточки.</p>
+      <a class="card__link" href="#">Подробнее</a>
+    </article>
+
+    <article class="card">
+      <h3 class="card__title">Название 2</h3>
+      <p class="card__text">
+        Более длинное описание. У этой карточки текста заметно больше, чем у соседней, поэтому она
+        выше остальных.
+      </p>
+      <a class="card__link" href="#">Подробнее</a>
+    </article>
+
+    <article class="card">
+      <h3 class="card__title">Название 3</h3>
+      <p class="card__text">Описание средней длины.</p>
+      <a class="card__link" href="#">Подробнее</a>
+    </article>
+  </div>
+
+  <div slot="controls">
+    <label class="checkbox">
+      <input class="checkbox__input" type="checkbox" id="toggle" checked />
+      <span class="checkbox__box"></span>
+      <span class="checkbox__label">Включить flex + margin-top: auto</span>
+    </label>
+
+    <p class="interactive__description" id="description">
+      Автоматический верхний отступ забирает свободное место, и ссылки всех карточек оказываются на одной высоте — у нижнего края.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .cards {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    transition: 0.3s;
+  }
+
+  .card__title {
+    margin: 0 0 8px;
+    font-family: var(--title-font-family);
+    font-size: 18px;
+    color: var(--text-primary);
+  }
+
+  .card__text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-tretiary);
+  }
+
+  .card__link {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .card__link:hover {
+    color: var(--accent-hover-color);
+  }
+
+  .cards.pinned .card__link {
+    margin-top: auto;
+    padding-top: 16px;
+  }
+</style>
+
+<script is:inline>
+  const toggle = document.getElementById("toggle");
+  const cards = document.querySelector(".cards");
+  const description = document.getElementById("description");
+
+  const render = () => {
+    const pinned = toggle.checked;
+    cards.classList.toggle("pinned", pinned);
+
+    window.renderInteractiveCode(
+      pinned
+        ? [
+            ".card {",
+            "  display: flex;",
+            "  flex-direction: column;",
+            "}",
+            "",
+            ".card__link {",
+            "  margin-top: auto;",
+            "}",
+          ]
+        : [
+            ".card {",
+            "  display: block;",
+            "}",
+            "",
+            ".card__link {",
+            "  margin-top: 16px;",
+            "}",
+          ]
+    );
+
+    description.textContent = pinned
+      ? "Автоматический верхний отступ забирает свободное место, и ссылки всех карточек оказываются на одной высоте — у нижнего края."
+      : "Отступ обычный: ссылка стоит сразу после текста, и у карточек с разным количеством текста она оказывается на разной высоте.";
+  };
+
+  render();
+  toggle.addEventListener("change", render);
+</script>

@@ -1,0 +1,116 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: выравнивание строки через align-items";
+const description =
+  "align-items выравнивает содержимое строки по поперечной оси. Строка с аватаром и именем не требует дополнительных margin или позиционирования.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="user-row" id="user" slot="preview">
+    <div class="user-row__avatar">ИИ</div>
+    <span class="user-row__name">Иван Иванов</span>
+  </div>
+
+  <div slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="align-items">
+      <Radio name="align" value="stretch" label="stretch" checked />
+      <Radio name="align" value="flex-start" label="flex-start" />
+      <Radio name="align" value="flex-end" label="flex-end" />
+      <Radio name="align" value="center" label="center" />
+    </div>
+
+    <p class="interactive__description" id="description">
+      stretch — элементы растягиваются по высоте контейнера, аватар и имя выравниваются по своим верхним краям.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .user-row {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    min-height: 72px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    transition: 0.3s;
+  }
+
+  .user-row__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--accent-color);
+  }
+
+  .user-row__name {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: 0.3s;
+  }
+
+  .user-row.flex-start {
+    align-items: flex-start;
+  }
+
+  .user-row.flex-end {
+    align-items: flex-end;
+  }
+
+  .user-row.center {
+    align-items: center;
+  }
+</style>
+
+<script is:inline>
+  const radios = document.querySelectorAll('[name="align"]');
+  const user = document.getElementById("user");
+  const description = document.getElementById("description");
+
+  const texts = {
+    stretch:
+      "stretch — элементы растягиваются по высоте контейнера, аватар и имя выравниваются по своим верхним краям.",
+    "flex-start":
+      "flex-start — элементы прижимаются к верхнему краю строки, их высота сохраняется.",
+    "flex-end":
+      "flex-end — элементы прижимаются к нижнему краю строки.",
+    center:
+      "center — элементы центрируются по поперечной оси: аватар и имя встают по центру строки.",
+  };
+
+  const render = () => {
+    const value = document.querySelector('[name="align"]:checked').value;
+    user.classList.remove("flex-start", "flex-end", "center");
+    if (value !== "stretch") user.classList.add(value);
+
+    window.renderInteractiveCode([
+      ".user-row {",
+      "  display: flex;",
+      `  align-items: ${value};`,
+      "  gap: 12px;",
+      "}",
+    ]);
+
+    description.textContent = texts[value];
+  };
+
+  render();
+  radios.forEach((radio) => radio.addEventListener("change", render));
+</script>

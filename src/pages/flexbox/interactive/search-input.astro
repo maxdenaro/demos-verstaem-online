@@ -1,0 +1,153 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+
+const title = "Flexbox: input занимает оставшееся пространство через flex: 1";
+const description =
+  "Поле поиска с flex: 1 автоматически занимает всё доступное пространство между кнопками. Меняется ширина контейнера — поле увеличивается или уменьшается.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="search" id="search" slot="preview">
+    <button class="search__button" type="button">Назад</button>
+    <input class="search__input" type="search" placeholder="Поиск" />
+    <button class="search__button search__button--primary" type="button">Найти</button>
+  </div>
+
+  <div slot="controls">
+    <label class="range">
+      <span class="range__label">
+        Ширина контейнера: <b id="width-value">100%</b>
+      </span>
+      <input
+        class="range__input"
+        id="width-range"
+        type="range"
+        min="35"
+        max="100"
+        value="100"
+        step="1"
+      />
+    </label>
+
+    <p class="interactive__description" id="description">
+      Контейнер широкий — поле поиска растянулось и заняло всё пространство между кнопками.
+    </p>
+  </div>
+</InteractiveLayout>
+
+<style is:global>
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    transition: 0.3s;
+  }
+
+  .search__button {
+    flex: 0 0 auto;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-tretiary);
+    background: transparent;
+    border: 1px solid var(--text-tretiary);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .search__button:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+
+  .search__button--primary {
+    color: var(--text-secondary);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+
+  .search__button--primary:hover {
+    color: var(--text-secondary);
+    border-color: var(--accent-hover-color);
+    background: var(--accent-hover-color);
+  }
+
+  .search__input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    border: 1px solid rgba(208, 206, 206, 0.25);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .search__input:focus {
+    border-color: var(--accent-color);
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+  }
+
+  .range__label b {
+    color: var(--text-primary);
+  }
+
+  .range__input {
+    width: 100%;
+    accent-color: var(--accent-color);
+  }
+</style>
+
+<script is:inline>
+  const search = document.getElementById("search");
+  const range = document.getElementById("width-range");
+  const widthValue = document.getElementById("width-value");
+  const description = document.getElementById("description");
+
+  const render = () => {
+    const width = Number(range.value);
+
+    search.style.width = `${width}%`;
+    widthValue.textContent = `${width}%`;
+
+    window.renderInteractiveCode([
+      ".search {",
+      "  display: flex;",
+      "  gap: 12px;",
+      `  width: ${width}%;`,
+      "}",
+      "",
+      ".search__input {",
+      "  flex: 1;",
+      "}",
+    ]);
+
+    description.textContent =
+      width < 55
+        ? "Контейнер узкий — поле поиска сузилось, но продолжает занимать всё доступное место."
+        : width < 80
+          ? "Контейнер средней ширины — поле поиска делит пространство с кнопками."
+          : "Контейнер широкий — поле поиска растянулось и заняло всё пространство между кнопками.";
+  };
+
+  render();
+  range.addEventListener("input", render);
+  range.addEventListener("change", render);
+</script>

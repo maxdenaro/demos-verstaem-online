@@ -1,0 +1,155 @@
+---
+import InteractiveLayout from "@/layouts/InteractiveLayout.astro";
+import Radio from "@/components/base/Radio.astro";
+
+const title = "Flexbox: колонки делят пространство через flex";
+const description =
+  "flex: 1 раздаёт доступное пространство поровну между колонками. flex: 2 у первой колонки отдаёт ей двойную долю. Меняйте ширину контейнера, чтобы увидеть, как колонки перераспределяют место.";
+---
+
+<InteractiveLayout title={title} description={description}>
+  <div class="columns" id="columns" slot="preview">
+    <div class="column">Первый</div>
+    <div class="column">Второй</div>
+    <div class="column">Третий</div>
+  </div>
+
+  <Fragment slot="controls">
+    <div class="radio-group" role="radiogroup" aria-label="Распределение пространства">
+      <Radio name="ratio" value="equal" label="Все flex: 1" checked />
+      <Radio name="ratio" value="first-large" label="Первый flex: 2" />
+    </div>
+
+    <label class="range">
+      <span class="range__label">
+        Ширина контейнера: <b id="width-value">100%</b>
+      </span>
+      <input
+        class="range__input"
+        id="width-range"
+        type="range"
+        min="35"
+        max="100"
+        value="100"
+        step="1"
+      />
+    </label>
+
+    <p class="interactive__description" id="description">
+      Все колонки с flex: 1 — свободное пространство делится между ними поровну.
+    </p>
+  </Fragment>
+</InteractiveLayout>
+
+<style is:global>
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .columns {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    transition: 0.3s;
+  }
+
+  .column {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    font-size: 14px;
+    color: var(--text-tretiary);
+    transition: 0.3s;
+  }
+
+  .columns.first-large .column:first-child {
+    flex: 2;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range__label {
+    font-size: 14px;
+    color: var(--text-tretiary);
+  }
+
+  .range__label b {
+    color: var(--text-primary);
+  }
+
+  .range__input {
+    width: 100%;
+    accent-color: var(--accent-color);
+  }
+</style>
+
+<script is:inline>
+  const radios = document.querySelectorAll('[name="ratio"]');
+  const columns = document.getElementById("columns");
+  const range = document.getElementById("width-range");
+  const widthValue = document.getElementById("width-value");
+  const description = document.getElementById("description");
+
+  const render = () => {
+    const ratio = document.querySelector('[name="ratio"]:checked').value;
+    const width = Number(range.value);
+
+    columns.classList.toggle("first-large", ratio === "first-large");
+    columns.style.width = `${width}%`;
+    widthValue.textContent = `${width}%`;
+
+    const code =
+      ratio === "equal"
+        ? [
+            ".columns {",
+            "  display: flex;",
+            "  gap: 12px;",
+            `  width: ${width}%;`,
+            "}",
+            "",
+            ".column {",
+            "  flex: 1;",
+            "}",
+          ]
+        : [
+            ".columns {",
+            "  display: flex;",
+            "  gap: 12px;",
+            `  width: ${width}%;`,
+            "}",
+            "",
+            ".column {",
+            "  flex: 1;",
+            "}",
+            "",
+            ".column:first-child {",
+            "  flex: 2;",
+            "}",
+          ];
+
+    window.renderInteractiveCode(code);
+
+    description.textContent =
+      ratio === "equal"
+        ? "Все колонки с flex: 1 — свободное пространство делится между ними поровну."
+        : "Первая колонка с flex: 2 — она получает двойную долю доступного пространства.";
+  };
+
+  render();
+  radios.forEach((radio) => radio.addEventListener("change", render));
+  range.addEventListener("input", render);
+  range.addEventListener("change", render);
+</script>

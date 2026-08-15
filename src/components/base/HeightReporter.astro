@@ -17,6 +17,8 @@
 
     if (window.parent === window) return;
 
+    document.documentElement.classList.add("is-embedded");
+
     window.addEventListener("load", sendHeight);
     sendHeight();
 
@@ -28,3 +30,10 @@
     }
   })();
 </script>
+
+<style is:global>
+  html.is-embedded,
+  html.is-embedded body {
+    overflow: hidden;
+  }
+</style>

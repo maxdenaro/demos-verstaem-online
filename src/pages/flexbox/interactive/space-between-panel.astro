@@ -93,6 +93,31 @@ const description =
     margin: 0;
     color: var(--text-tretiary);
   }
+
+  @media (max-width: 600px) {
+    .panel__bar {
+      padding: 12px 16px;
+      gap: 8px;
+    }
+
+    .panel__title {
+      font-size: 14px;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel__button {
+      padding: 6px 10px;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .panel__content {
+      padding: 16px;
+    }
+  }
 </style>
 
 <script is:inline>

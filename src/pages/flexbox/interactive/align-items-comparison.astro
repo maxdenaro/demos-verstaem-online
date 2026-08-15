@@ -80,6 +80,32 @@ const description =
   .demo-interactive.stretch {
     align-items: stretch;
   }
+
+  @media (max-width: 600px) {
+    .demo-interactive {
+      gap: 6px;
+    }
+
+    .demo-interactive .child {
+      font-size: 12px;
+    }
+
+    .demo-interactive .child:nth-child(1) {
+      padding: 16px 6px;
+    }
+
+    .demo-interactive .child:nth-child(2) {
+      padding: 40px 6px;
+    }
+
+    .demo-interactive .child:nth-child(3) {
+      padding: 64px 6px;
+    }
+
+    .demo-interactive .child:nth-child(4) {
+      padding: 88px 6px;
+    }
+  }
 </style>
 
 <script is:inline>

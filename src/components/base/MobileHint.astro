@@ -1,0 +1,43 @@
+<div class="mobile-hint">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <rect x="2" y="4" width="20" height="13" rx="2" />
+    <path d="M8 21h8" />
+    <path d="M12 17v4" />
+  </svg>
+  <span>Демо лучше смотреть на компьютере</span>
+</div>
+
+<style>
+  .mobile-hint {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .mobile-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-tretiary);
+      background: var(--bg-primary);
+      border-radius: 12px;
+    }
+
+    .mobile-hint svg {
+      flex-shrink: 0;
+    }
+  }
+</style>

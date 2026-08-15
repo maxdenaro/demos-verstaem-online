@@ -1,6 +1,7 @@
 ---
 import Head from "@/components/base/Head.astro";
 import HeightReporter from "@/components/base/HeightReporter.astro";
+import MobileHint from "@/components/base/MobileHint.astro";
 import "@/assets/scss/main.scss";
 
 const { title = "Демо", description = "" } = Astro.props;
@@ -13,6 +14,7 @@ const { title = "Демо", description = "" } = Astro.props;
     <div class="demo">
       <div class="container">
         <div class="demo__inner">
+          <MobileHint />
           <slot />
         </div>
       </div>

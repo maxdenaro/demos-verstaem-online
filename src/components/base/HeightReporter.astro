@@ -7,14 +7,8 @@
 <script is:inline>
   (function () {
     function measure() {
-      const de = document.documentElement;
       const body = document.body;
-      return Math.max(
-        de.scrollHeight,
-        de.offsetHeight,
-        body ? body.scrollHeight : 0,
-        body ? body.offsetHeight : 0,
-      );
+      return body ? Math.max(body.scrollHeight, body.offsetHeight) : 0;
     }
 
     function sendHeight() {

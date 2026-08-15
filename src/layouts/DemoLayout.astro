@@ -1,5 +1,6 @@
 ---
 import Head from "@/components/base/Head.astro";
+import HeightReporter from "@/components/base/HeightReporter.astro";
 import "@/assets/scss/main.scss";
 
 const { title = "Демо", description = "" } = Astro.props;
@@ -16,5 +17,6 @@ const { title = "Демо", description = "" } = Astro.props;
         </div>
       </div>
     </div>
+    <HeightReporter />
   </body>
 </html>

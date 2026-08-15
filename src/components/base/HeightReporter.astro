@@ -1,0 +1,36 @@
+---
+// Отправляет родителю актуальную высоту демо-страницы через postMessage.
+// Используется, когда демо встроено в iframe на сайте (verstaem.online).
+// Родитель слушает сообщения { source: "demo", height: number }.
+---
+
+<script is:inline>
+  (function () {
+    function measure() {
+      const de = document.documentElement;
+      const body = document.body;
+      return Math.max(
+        de.scrollHeight,
+        de.offsetHeight,
+        body ? body.scrollHeight : 0,
+        body ? body.offsetHeight : 0,
+      );
+    }
+
+    function sendHeight() {
+      parent.postMessage({ source: "demo", height: measure() }, "*");
+    }
+
+    if (window.parent === window) return;
+
+    window.addEventListener("load", sendHeight);
+    sendHeight();
+
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(sendHeight).observe(document.documentElement);
+      if (document.body) new ResizeObserver(sendHeight).observe(document.body);
+    } else {
+      window.addEventListener("resize", sendHeight);
+    }
+  })();
+</script>

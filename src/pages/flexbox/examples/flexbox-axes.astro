@@ -116,4 +116,28 @@ const description = "";
   .axes__children .child:nth-child(2) {
     padding: 64px 24px;
   }
+
+  @media (max-width: 600px) {
+    .axes {
+      column-gap: 12px;
+      row-gap: 8px;
+    }
+
+    .axes__label {
+      font-size: 13px;
+    }
+
+    .axes__children {
+      gap: 10px;
+    }
+
+    .axes__children .child {
+      min-height: 64px;
+      font-size: 18px;
+    }
+
+    .axes__children .child:nth-child(2) {
+      padding: 24px 12px;
+    }
+  }
 </style>

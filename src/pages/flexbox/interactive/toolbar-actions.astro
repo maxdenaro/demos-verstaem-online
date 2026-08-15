@@ -86,6 +86,26 @@ const description =
     border-color: var(--accent-hover-color);
     background: var(--accent-hover-color);
   }
+
+  @media (max-width: 600px) {
+    .toolbar {
+      gap: 8px;
+      padding: 12px 16px;
+    }
+
+    .toolbar__title {
+      font-size: 15px;
+    }
+
+    .toolbar__button {
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+
+    .toolbar__actions {
+      gap: 8px;
+    }
+  }
 </style>
 
 <script is:inline>

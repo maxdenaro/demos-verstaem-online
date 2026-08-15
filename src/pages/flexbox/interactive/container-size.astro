@@ -108,6 +108,29 @@ const description =
     width: 100%;
     accent-color: var(--accent-color);
   }
+
+  @media (max-width: 600px) {
+    .demo-interactive {
+      gap: 6px;
+    }
+
+    .demo-interactive .child {
+      padding: 8px;
+      font-size: 13px;
+    }
+
+    .demo-interactive .child:nth-child(1) {
+      width: 50px;
+    }
+
+    .demo-interactive .child:nth-child(2) {
+      width: 72px;
+    }
+
+    .demo-interactive .child:nth-child(3) {
+      width: 100px;
+    }
+  }
 </style>
 
 <script is:inline>

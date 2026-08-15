@@ -64,4 +64,16 @@
       grid-template-columns: 1fr;
     }
   }
+
+  @media (max-width: 600px) {
+    &__container {
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+
+    &__preview,
+    &__panel {
+      padding: 16px;
+    }
+  }
 }

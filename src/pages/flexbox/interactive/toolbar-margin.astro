@@ -67,6 +67,12 @@ const description =
   .menu a:hover {
     color: var(--text-primary);
   }
+
+  @media (max-width: 600px) {
+    .menu a:nth-child(2) {
+      display: none;
+    }
+  }
 </style>
 
 <script is:inline>

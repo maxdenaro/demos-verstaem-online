@@ -58,6 +58,17 @@ const description =
   .demo-interactive.grow .child:nth-child(2) {
     flex-grow: 1;
   }
+
+  @media (max-width: 600px) {
+    .demo-interactive .child:nth-child(1),
+    .demo-interactive .child:nth-child(3) {
+      flex-basis: 50px;
+    }
+
+    .demo-interactive .child:nth-child(2) {
+      flex-basis: 60px;
+    }
+  }
 </style>
 
 <script is:inline>

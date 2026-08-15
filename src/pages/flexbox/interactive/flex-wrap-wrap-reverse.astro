@@ -113,6 +113,12 @@ const description =
     width: 100%;
     accent-color: var(--accent-color);
   }
+
+  @media (max-width: 600px) {
+    .demo-interactive .child:nth-child(n + 4) {
+      display: none;
+    }
+  }
 </style>
 
 <script is:inline>
@@ -146,7 +152,9 @@ const description =
     }
 
     const rows = new Set();
-    [...container.children].forEach((child) => rows.add(child.offsetTop));
+    [...container.children]
+      .filter((child) => child.offsetHeight > 0)
+      .forEach((child) => rows.add(child.offsetTop));
     const rowCount = rows.size;
 
     description.textContent =

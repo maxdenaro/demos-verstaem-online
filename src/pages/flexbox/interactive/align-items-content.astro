@@ -263,6 +263,12 @@ const description =
     line-height: 1;
     color: rgba(249, 236, 14, 0.75);
   }
+
+  @media (max-width: 600px) {
+    .demo-interactive .child:nth-child(n + 6) {
+      display: none;
+    }
+  }
 </style>
 
 <script is:inline>
@@ -346,7 +352,9 @@ const description =
     const cRect = container.getBoundingClientRect();
     const innerH = container.clientHeight - pad * 2;
 
-    const entries = [...container.querySelectorAll(".child")].map((el) => {
+    const entries = [...container.querySelectorAll(".child")]
+      .filter((el) => el.offsetHeight > 0)
+      .map((el) => {
       const r = el.getBoundingClientRect();
       return {
         el,
